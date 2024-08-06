@@ -8,37 +8,56 @@
 import SwiftUI
 import Combine
 
-import SwiftUI
-import Combine
-
 public struct ExchangeRatesView: View {
     @ObservedObject var viewModel = ExchangeRatesViewModel()
 
     public var body: some View {
         NavigationView {
-            List(viewModel.exchangeRates) { rate in
-                HStack {
-                    Text(flag(for: rate.currency))
-                        .font(.largeTitle)
-                        .padding(.trailing, 8)
-                    VStack(alignment: .leading) {
-                        Text(rate.currency)
-                            .font(.headline)
-                        if let currencyName = viewModel.currencyNames[rate.currency] {
-                            Text(currencyName)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+            List {
+                ForEach(viewModel.exchangeRates) { rate in
+                    HStack {
+                        Text(flag(for: rate.currency))
+                            .font(.largeTitle)
+                            .padding(.trailing, 8)
+                        VStack(alignment: .leading) {
+                            Text(rate.currency)
+                                .font(.headline)
+                            if let currencyName = viewModel.currencyNames[rate.currency] {
+                                Text(currencyName)
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
                         }
+                        Spacer()
+                        Text(String(format: "%.4f", rate.rate))
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
                     }
-                    Spacer()
-                    Text(String(format: "%.4f", rate.rate))
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+                }
+                if viewModel.state == .loading {
+                    ProgressView()
+                        .onAppear {
+                            viewModel.fetchExchangeRates()
+                        }
+                } else if viewModel.state == .loaded {
+                    Color.clear
+                        .onAppear {
+                            viewModel.fetchExchangeRates()
+                        }
                 }
             }
-            .navigationTitle("Euro Exchange Rates")
+            .navigationTitle("Exchange Rates")
             .onAppear {
-                viewModel.fetchExchangeRates()
+                if viewModel.state == .idle {
+                    viewModel.fetchCurrencyNames()
+                    viewModel.fetchExchangeRates()
+                }
+            }
+            .alert(isPresented: Binding<Bool>(
+                get: { viewModel.state == .error("") },
+                set: { _ in viewModel.state = .idle }
+            )) {
+                Alert(title: Text("Error"), message: Text("Failed to load exchange rates"), dismissButton: .default(Text("OK")))
             }
         }
     }

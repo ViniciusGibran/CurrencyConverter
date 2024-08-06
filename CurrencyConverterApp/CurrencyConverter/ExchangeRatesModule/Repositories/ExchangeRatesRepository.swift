@@ -8,16 +8,26 @@
 import Foundation
 import Combine
 
+import Foundation
+import Combine
+
 public class ExchangeRatesRepository {
     private let apiService = APIService.shared
 
     public init() {}
-
-    public func fetchExchangeRates() -> AnyPublisher<[ExchangeRate], Error> {
-        let url = URL(string: "https://api.frankfurter.app/latest?from=EUR")!
+    
+    public func fetchExchangeRates(page: Int, pageSize: Int) -> AnyPublisher<[ExchangeRate], Error> {
+        let url = URL(string: "https://api.frankfurter.app/latest?from=EUR&page=\(page)&pageSize=\(pageSize)")!
+        print("page: \(page)")
         return apiService.performRequest(with: url)
             .map { (response: ExchangeRatesResponse) in
-                response.rates.map { ExchangeRate(currency: $0.key, rate: $0.value) }
+                let allRates = response.rates.map { ExchangeRate(currency: $0.key, rate: $0.value) }
+                let startIndex = page * pageSize
+                let endIndex = min(startIndex + pageSize, allRates.count)
+                guard startIndex < endIndex else {
+                    return []
+                }
+                return Array(allRates[startIndex..<endIndex])
             }
             .eraseToAnyPublisher()
     }
