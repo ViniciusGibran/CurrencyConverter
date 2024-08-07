@@ -1,5 +1,5 @@
 { 
-    "config_version": "0.0.1",
+    "configVersion": "0.0.1",
     "currencyInfo":[ {
                         "currencyCode": "USD",
                         "countryCode": "US",
