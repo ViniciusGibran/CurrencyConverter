@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 
+/*
 class ExchangeRatesCoordinator: Coordinator {
     var navigationController: UINavigationController
     
@@ -21,3 +22,4 @@ class ExchangeRatesCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
 }
+*/

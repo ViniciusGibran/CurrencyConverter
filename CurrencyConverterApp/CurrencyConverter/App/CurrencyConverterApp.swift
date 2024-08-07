@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import Combine
+import CoreData
 
 @main
 struct CurrencyConverterApp: App {
+    @StateObject private var persistenceController = PersistenceController.shared
+    @StateObject private var remoteConfigLoader = RemoteConfigLoader(context: PersistenceController.shared.container.viewContext)
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .onAppear {
+                    remoteConfigLoader.loadRemoteConfig()
+                }
         }
     }
 }
@@ -23,9 +32,11 @@ struct ContentView: View {
 }
 
 struct MainTabView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+
     var body: some View {
         TabView {
-            ExchangeRatesView()
+            ExchangeRatesView(context: viewContext)
                 .tabItem {
                     Label("Exchange Rates", systemImage: "list.dash")
                 }
@@ -36,5 +47,30 @@ struct MainTabView: View {
                 }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+    }
+}
+
+class RemoteConfigLoader: ObservableObject {
+    private var cancellables = Set<AnyCancellable>()
+    let remoteConfigRepository = RemoteConfigRepository()
+    let localStorageAdapter: LocalStorageAdapter
+
+    init(context: NSManagedObjectContext) {
+        self.localStorageAdapter = LocalStorageAdapter(context: context)
+    }
+
+    func loadRemoteConfig() {
+        remoteConfigRepository.fetchRemoteConfig()
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    print("Error fetching remote config: \(error)")
+                case .finished:
+                    break
+                }
+            }, receiveValue: { [weak self] currencies in
+                self?.localStorageAdapter.saveCurrencies(currencies)
+            })
+            .store(in: &cancellables)
     }
 }

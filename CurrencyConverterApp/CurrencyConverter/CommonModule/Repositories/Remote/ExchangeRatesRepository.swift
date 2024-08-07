@@ -11,12 +11,16 @@ import Combine
 import Foundation
 import Combine
 
+struct ExchangeRatesResponse: Decodable {
+    let rates: [String: Double]
+}
+
 public class ExchangeRatesRepository {
     private let apiService = APIService.shared
 
-    public init() {}
+    init() {}
     
-    public func fetchExchangeRates(page: Int, pageSize: Int) -> AnyPublisher<[ExchangeRate], Error> {
+    func fetchExchangeRates(page: Int, pageSize: Int) -> AnyPublisher<[ExchangeRate], Error> {
         let url = URL(string: "https://api.frankfurter.app/latest?from=EUR&page=\(page)&pageSize=\(pageSize)")!
         print("page: \(page)")
         return apiService.performRequest(with: url)
@@ -32,7 +36,7 @@ public class ExchangeRatesRepository {
             .eraseToAnyPublisher()
     }
     
-    public func fetchCurrencyNames() -> AnyPublisher<[String: String], Error> {
+    func fetchCurrencyNames() -> AnyPublisher<[String: String], Error> {
         let url = URL(string: "https://api.frankfurter.app/currencies")!
         return apiService.performRequest(with: url)
             .map { (response: [String: String]) in

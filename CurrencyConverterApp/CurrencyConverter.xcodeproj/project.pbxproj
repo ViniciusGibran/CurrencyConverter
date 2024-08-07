@@ -15,12 +15,8 @@
 		913B7BD52C60312D003E6D5A /* CurrencyConverterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BD42C60312D003E6D5A /* CurrencyConverterUITests.swift */; };
 		913B7BD72C60312D003E6D5A /* CurrencyConverterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BD62C60312D003E6D5A /* CurrencyConverterUITestsLaunchTests.swift */; };
 		913B7BE42C606049003E6D5A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BE32C606049003E6D5A /* AppCoordinator.swift */; };
-		913B7BEA2C6060BB003E6D5A /* CurrencyAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BE92C6060BB003E6D5A /* CurrencyAPIClient.swift */; };
 		913B7BF22C6063D2003E6D5A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BF12C6063D2003E6D5A /* TabBarCoordinator.swift */; };
 		913B7BFD2C611363003E6D5A /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BFC2C611363003E6D5A /* PersistenceController.swift */; };
-		913B7BFF2C611373003E6D5A /* CurrencyConverterStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BFE2C611373003E6D5A /* CurrencyConverterStore.swift */; };
-		913B7C012C611384003E6D5A /* CurrencyConverter+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C002C611384003E6D5A /* CurrencyConverter+CoreDataClass.swift */; };
-		913B7C032C611394003E6D5A /* CurrencyConverter+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C022C611394003E6D5A /* CurrencyConverter+CoreDataProperties.swift */; };
 		913B7C4A2C611824003E6D5A /* ExchangeRatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C492C611824003E6D5A /* ExchangeRatesTests.swift */; };
 		913B7CA82C624BF1003E6D5A /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C7A2C61AFD1003E6D5A /* APIService.swift */; };
 		913B7CB32C624C14003E6D5A /* CurrencyConverterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BED2C606133003E6D5A /* CurrencyConverterViewController.swift */; };
@@ -37,6 +33,9 @@
 		913B7CBF2C62549F003E6D5A /* ButtonPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CBE2C62549F003E6D5A /* ButtonPublisher.swift */; };
 		913B7CC12C6254AB003E6D5A /* TextFieldPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CC02C6254AB003E6D5A /* TextFieldPublisher.swift */; };
 		913B7CC32C6254BB003E6D5A /* UIView+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CC22C6254BA003E6D5A /* UIView+Constraints.swift */; };
+		913B7CD42C63C7B1003E6D5A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CD32C63C7B1003E6D5A /* Currency.swift */; };
+		913B7CD62C63C7C3003E6D5A /* RemoteConfigRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CD52C63C7C2003E6D5A /* RemoteConfigRepository.swift */; };
+		913B7CE02C63CDB9003E6D5A /* LocalStorageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CDF2C63CDB9003E6D5A /* LocalStorageAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,17 +89,11 @@
 		913B7BE32C606049003E6D5A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		913B7BE52C606071003E6D5A /* ExchangeRatesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesCoordinator.swift; sourceTree = "<group>"; };
 		913B7BE72C606087003E6D5A /* ExchangeRatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesView.swift; sourceTree = "<group>"; };
-		913B7BE92C6060BB003E6D5A /* CurrencyAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyAPIClient.swift; sourceTree = "<group>"; };
 		913B7BEB2C6060D1003E6D5A /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
 		913B7BED2C606133003E6D5A /* CurrencyConverterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterViewController.swift; sourceTree = "<group>"; };
 		913B7BEF2C606150003E6D5A /* CurrencyConverterCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterCoordinator.swift; sourceTree = "<group>"; };
 		913B7BF12C6063D2003E6D5A /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		913B7BFC2C611363003E6D5A /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
-		913B7BFE2C611373003E6D5A /* CurrencyConverterStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterStore.swift; sourceTree = "<group>"; };
-		913B7C002C611384003E6D5A /* CurrencyConverter+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyConverter+CoreDataClass.swift"; sourceTree = "<group>"; };
-		913B7C022C611394003E6D5A /* CurrencyConverter+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CurrencyConverter+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		913B7C3B2C611823003E6D5A /* ExchangeRates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExchangeRates.h; sourceTree = "<group>"; };
-		913B7C3C2C611823003E6D5A /* ExchangeRates.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ExchangeRates.docc; sourceTree = "<group>"; };
 		913B7C422C611824003E6D5A /* ExchangeRatesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExchangeRatesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		913B7C492C611824003E6D5A /* ExchangeRatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesTests.swift; sourceTree = "<group>"; };
 		913B7C6E2C6194A3003E6D5A /* ExchangeRatesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesViewModel.swift; sourceTree = "<group>"; };
@@ -113,6 +106,9 @@
 		913B7CBE2C62549F003E6D5A /* ButtonPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonPublisher.swift; sourceTree = "<group>"; };
 		913B7CC02C6254AB003E6D5A /* TextFieldPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldPublisher.swift; sourceTree = "<group>"; };
 		913B7CC22C6254BA003E6D5A /* UIView+Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Constraints.swift"; sourceTree = "<group>"; };
+		913B7CD32C63C7B1003E6D5A /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		913B7CD52C63C7C2003E6D5A /* RemoteConfigRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteConfigRepository.swift; path = ../../Services/RemoteConfigRepository.swift; sourceTree = "<group>"; };
+		913B7CDF2C63CDB9003E6D5A /* LocalStorageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageAdapter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +149,6 @@
 				913B7BB32C60312B003E6D5A /* CurrencyConverter */,
 				913B7BC92C60312D003E6D5A /* CurrencyConverterTests */,
 				913B7BD32C60312D003E6D5A /* CurrencyConverterUITests */,
-				913B7C3A2C611823003E6D5A /* ExchangeRates */,
 				913B7C482C611824003E6D5A /* ExchangeRatesTests */,
 				913B7BB22C60312B003E6D5A /* Products */,
 				913B7C712C61953D003E6D5A /* Frameworks */,
@@ -221,8 +216,6 @@
 		913B7BF52C611173003E6D5A /* ExchangeRatesModule */ = {
 			isa = PBXGroup;
 			children = (
-				913B7C7D2C61B022003E6D5A /* Repositories */,
-				913B7BF82C6111DD003E6D5A /* Models */,
 				913B7BE52C606071003E6D5A /* ExchangeRatesCoordinator.swift */,
 				913B7BE72C606087003E6D5A /* ExchangeRatesView.swift */,
 				913B7C6E2C6194A3003E6D5A /* ExchangeRatesViewModel.swift */,
@@ -233,8 +226,6 @@
 		913B7BF62C611183003E6D5A /* CurrencyConverterModule */ = {
 			isa = PBXGroup;
 			children = (
-				913B7C882C61B0A4003E6D5A /* Repositories */,
-				913B7C832C61B06F003E6D5A /* Models */,
 				913B7BED2C606133003E6D5A /* CurrencyConverterViewController.swift */,
 				913B7BEF2C606150003E6D5A /* CurrencyConverterCoordinator.swift */,
 				913B7C8B2C61B0CA003E6D5A /* CurrencyConverterViewContainer.swift */,
@@ -246,18 +237,9 @@
 		913B7BF72C6111C8003E6D5A /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				913B7BE92C6060BB003E6D5A /* CurrencyAPIClient.swift */,
 				913B7C7A2C61AFD1003E6D5A /* APIService.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		913B7BF82C6111DD003E6D5A /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				913B7BEB2C6060D1003E6D5A /* ExchangeRate.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		913B7BF92C6111FB003E6D5A /* Utilities */ = {
@@ -284,20 +266,9 @@
 			children = (
 				913B7BBF2C60312D003E6D5A /* CurrencyConverter.xcdatamodeld */,
 				913B7BFC2C611363003E6D5A /* PersistenceController.swift */,
-				913B7BFE2C611373003E6D5A /* CurrencyConverterStore.swift */,
-				913B7C002C611384003E6D5A /* CurrencyConverter+CoreDataClass.swift */,
-				913B7C022C611394003E6D5A /* CurrencyConverter+CoreDataProperties.swift */,
+				913B7CDF2C63CDB9003E6D5A /* LocalStorageAdapter.swift */,
 			);
 			path = CoreData;
-			sourceTree = "<group>";
-		};
-		913B7C3A2C611823003E6D5A /* ExchangeRates */ = {
-			isa = PBXGroup;
-			children = (
-				913B7C3B2C611823003E6D5A /* ExchangeRates.h */,
-				913B7C3C2C611823003E6D5A /* ExchangeRates.docc */,
-			);
-			path = ExchangeRates;
 			sourceTree = "<group>";
 		};
 		913B7C482C611824003E6D5A /* ExchangeRatesTests */ = {
@@ -311,8 +282,9 @@
 		913B7C6D2C619439003E6D5A /* CommonModule */ = {
 			isa = PBXGroup;
 			children = (
+				913B7CC62C63BDA8003E6D5A /* Models */,
+				913B7CC42C63BD7D003E6D5A /* Repositories */,
 				913B7BF72C6111C8003E6D5A /* Services */,
-				913B7BFB2C611339003E6D5A /* CoreData */,
 				913B7BF92C6111FB003E6D5A /* Utilities */,
 			);
 			path = CommonModule;
@@ -325,28 +297,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		913B7C7D2C61B022003E6D5A /* Repositories */ = {
+		913B7CC42C63BD7D003E6D5A /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				913B7C7E2C61B03A003E6D5A /* ExchangeRatesRepository.swift */,
+				913B7BFB2C611339003E6D5A /* CoreData */,
+				913B7CCD2C63C6F6003E6D5A /* Remote */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
 		};
-		913B7C832C61B06F003E6D5A /* Models */ = {
+		913B7CC62C63BDA8003E6D5A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				913B7CD32C63C7B1003E6D5A /* Currency.swift */,
 				913B7C842C61B086003E6D5A /* ConversionResult.swift */,
+				913B7BEB2C6060D1003E6D5A /* ExchangeRate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		913B7C882C61B0A4003E6D5A /* Repositories */ = {
+		913B7CCD2C63C6F6003E6D5A /* Remote */ = {
 			isa = PBXGroup;
 			children = (
+				913B7CD52C63C7C2003E6D5A /* RemoteConfigRepository.swift */,
 				913B7C892C61B0B5003E6D5A /* CurrencyConverterRepository.swift */,
+				913B7C7E2C61B03A003E6D5A /* ExchangeRatesRepository.swift */,
 			);
-			path = Repositories;
+			path = Remote;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -511,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				913B7BF22C6063D2003E6D5A /* TabBarCoordinator.swift in Sources */,
+				913B7CD62C63C7C3003E6D5A /* RemoteConfigRepository.swift in Sources */,
 				913B7CB32C624C14003E6D5A /* CurrencyConverterViewController.swift in Sources */,
 				913B7CB42C624C14003E6D5A /* CurrencyConverterRepository.swift in Sources */,
 				913B7CB52C624C14003E6D5A /* CurrencyConverterCoordinator.swift in Sources */,
@@ -518,22 +496,20 @@
 				913B7CB72C624C14003E6D5A /* CurrencyConverterViewContainer.swift in Sources */,
 				913B7CB82C624C14003E6D5A /* ExchangeRatesView.swift in Sources */,
 				913B7CB92C624C14003E6D5A /* CurrencyConverterViewModel.swift in Sources */,
+				913B7CE02C63CDB9003E6D5A /* LocalStorageAdapter.swift in Sources */,
 				913B7CBA2C624C14003E6D5A /* ExchangeRate.swift in Sources */,
 				913B7CBB2C624C14003E6D5A /* ConversionResult.swift in Sources */,
 				913B7CBC2C624C14003E6D5A /* ExchangeRatesViewModel.swift in Sources */,
 				913B7CBD2C624C14003E6D5A /* ExchangeRatesCoordinator.swift in Sources */,
+				913B7CD42C63C7B1003E6D5A /* Currency.swift in Sources */,
 				913B7CBF2C62549F003E6D5A /* ButtonPublisher.swift in Sources */,
 				913B7BFD2C611363003E6D5A /* PersistenceController.swift in Sources */,
 				913B7CC12C6254AB003E6D5A /* TextFieldPublisher.swift in Sources */,
 				913B7CC32C6254BB003E6D5A /* UIView+Constraints.swift in Sources */,
 				913B7BC12C60312D003E6D5A /* CurrencyConverter.xcdatamodeld in Sources */,
 				913B7CA82C624BF1003E6D5A /* APIService.swift in Sources */,
-				913B7C032C611394003E6D5A /* CurrencyConverter+CoreDataProperties.swift in Sources */,
 				913B7BE42C606049003E6D5A /* AppCoordinator.swift in Sources */,
-				913B7BEA2C6060BB003E6D5A /* CurrencyAPIClient.swift in Sources */,
-				913B7C012C611384003E6D5A /* CurrencyConverter+CoreDataClass.swift in Sources */,
 				913B7BB52C60312B003E6D5A /* CurrencyConverterApp.swift in Sources */,
-				913B7BFF2C611373003E6D5A /* CurrencyConverterStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,6 +694,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -747,6 +724,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

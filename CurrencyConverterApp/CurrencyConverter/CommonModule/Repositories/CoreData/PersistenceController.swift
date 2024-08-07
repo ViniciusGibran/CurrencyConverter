@@ -7,28 +7,9 @@
 
 import CoreData
 
-struct PersistenceController {
+class PersistenceController: ObservableObject {
     static let shared = PersistenceController()
-
-    static var preview: PersistenceController = {
-        let result = PersistenceController(inMemory: true)
-        let viewContext = result.container.viewContext
-        for _ in 0..<10 {
-            let newItem = CurrencyConverter(context: viewContext)
-            newItem.amount = 100.0
-            newItem.fromCurrency = "USD"
-            newItem.toCurrency = "EUR"
-            newItem.convertedAmount = 84.0
-        }
-        do {
-            try viewContext.save()
-        } catch {
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-        return result
-    }()
-
+    
     let container: NSPersistentContainer
 
     init(inMemory: Bool = false) {

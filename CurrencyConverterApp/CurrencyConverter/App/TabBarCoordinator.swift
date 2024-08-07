@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 
+/*
 class TabBarCoordinator: Coordinator {
     var navigationController: UINavigationController
     private var tabBarController: UITabBarController
@@ -29,4 +30,4 @@ class TabBarCoordinator: Coordinator {
         
         navigationController.pushViewController(tabBarController, animated: true)
     }
-}
+}*/

@@ -7,43 +7,62 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 public struct ExchangeRatesView: View {
-    @ObservedObject var viewModel = ExchangeRatesViewModel()
+    @ObservedObject var viewModel: ExchangeRatesViewModel
+    @State private var searchText = ""
+
+    public init(context: NSManagedObjectContext) {
+        self.viewModel = ExchangeRatesViewModel(context: context)
+    }
 
     public var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.exchangeRates) { rate in
-                    HStack {
-                        Text(flag(for: rate.currency))
-                            .font(.largeTitle)
-                            .padding(.trailing, 8)
-                        VStack(alignment: .leading) {
-                            Text(rate.currency)
-                                .font(.headline)
-                            if let currencyName = viewModel.currencyNames[rate.currency] {
-                                Text(currencyName)
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
+            VStack {
+                SearchBar(text: $searchText)
+                List {
+                    ForEach(viewModel.filteredExchangeRates(searchText: searchText)) { rate in
+                        HStack {
+                            if let currencyDetails = rate.currencyDetails {
+                                Text(currencyDetails.flag)
+                                    .font(.largeTitle)
+                                    .padding(.trailing, 8)
+                                VStack(alignment: .leading) {
+                                    Text(rate.currency)
+                                        .font(.headline)
+                                    if let currencyName = currencyDetails.currencyName {
+                                        Text(currencyName)
+                                            .font(.subheadline)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                            } else {
+                                Text("🏳️")
+                                    .font(.largeTitle)
+                                    .padding(.trailing, 8)
+                                VStack(alignment: .leading) {
+                                    Text(rate.currency)
+                                        .font(.headline)
+                                }
                             }
+                            Spacer()
+                            Text(String(format: "%.4f", rate.rate))
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
                         }
-                        Spacer()
-                        Text(String(format: "%.4f", rate.rate))
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
                     }
-                }
-                if viewModel.state == .loading {
-                    ProgressView()
-                        .onAppear {
-                            viewModel.fetchExchangeRates()
-                        }
-                } else if viewModel.state == .loaded {
-                    Color.clear
-                        .onAppear {
-                            viewModel.fetchExchangeRates()
-                        }
+                    if viewModel.state == .loading {
+                        ProgressView()
+                            .onAppear {
+                                viewModel.fetchExchangeRates()
+                            }
+                    } else if viewModel.state == .loaded {
+                        Color.clear
+                            .onAppear {
+                                viewModel.fetchExchangeRates()
+                            }
+                    }
                 }
             }
             .navigationTitle("Exchange Rates")
@@ -61,55 +80,34 @@ public struct ExchangeRatesView: View {
             }
         }
     }
+}
 
-    let currencyToCountryCode: [String: String] = [
-        "AUD": "AU",
-        "BGN": "BG",
-        "BRL": "BR",
-        "CAD": "CA",
-        "CHF": "CH",
-        "CNY": "CN",
-        "CZK": "CZ",
-        "DKK": "DK",
-        "EUR": "EU",
-        "GBP": "GB",
-        "HKD": "HK",
-        "HUF": "HU",
-        "IDR": "ID",
-        "ILS": "IL",
-        "INR": "IN",
-        "ISK": "IS",
-        "JPY": "JP",
-        "KRW": "KR",
-        "MXN": "MX",
-        "MYR": "MY",
-        "NOK": "NO",
-        "NZD": "NZ",
-        "PHP": "PH",
-        "PLN": "PL",
-        "RON": "RO",
-        "SEK": "SE",
-        "SGD": "SG",
-        "THB": "TH",
-        "TRY": "TR",
-        "USD": "US",
-        "ZAR": "ZA",
-        // Add more mappings as needed
-    ]
+struct SearchBar: UIViewRepresentable {
+    @Binding var text: String
 
-    func flag(for currencyCode: String) -> String {
-        guard let countryCode = currencyToCountryCode[currencyCode] else {
-            return "🇫🇲" // Default flag if not found
+    class Coordinator: NSObject, UISearchBarDelegate {
+        @Binding var text: String
+
+        init(text: Binding<String>) {
+            _text = text
         }
-        return flagEmoji(for: countryCode)
+
+        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+            text = searchText
+        }
     }
 
-    private func flagEmoji(for countryCode: String) -> String {
-        let base: UInt32 = 127397
-        var s = ""
-        for scalar in countryCode.unicodeScalars {
-            s.unicodeScalars.append(UnicodeScalar(base + scalar.value)!)
-        }
-        return String(s)
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(text: $text)
+    }
+
+    func makeUIView(context: Context) -> UISearchBar {
+        let searchBar = UISearchBar(frame: .zero)
+        searchBar.delegate = context.coordinator
+        return searchBar
+    }
+
+    func updateUIView(_ uiView: UISearchBar, context: Context) {
+        uiView.text = text
     }
 }

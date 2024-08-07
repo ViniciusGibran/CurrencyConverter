@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/*
 class AppCoordinator: Coordinator {
     var navigationController: UINavigationController
     
@@ -19,3 +20,4 @@ class AppCoordinator: Coordinator {
         tabBarCoordinator.start()
     }
 }
+*/
