@@ -1,0 +1,190 @@
+{ 
+    "config_version": "0.0.1",
+    "currencyInfo":[ {
+                        "currencyCode": "USD",
+                        "countryCode": "US",
+                        "priority": 1,
+                        "emoji": "🇺🇸"
+                    },
+                    {
+                        "currencyCode": "EUR",
+                        "countryCode": "EU",
+                        "priority": 2,
+                        "emoji": "🇪🇺"
+                    },
+                    {
+                        "currencyCode": "JPY",
+                        "countryCode": "JP",
+                        "priority": 3,
+                        "emoji": "🇯🇵"
+                    },
+                    {
+                        "currencyCode": "GBP",
+                        "countryCode": "GB",
+                        "priority": 4,
+                        "emoji": "🇬🇧"
+                    },
+                    {
+                        "currencyCode": "AUD",
+                        "countryCode": "AU",
+                        "priority": 5,
+                        "emoji": "🇦🇺"
+                    },
+                    {
+                        "currencyCode": "CAD",
+                        "countryCode": "CA",
+                        "priority": 6,
+                        "emoji": "🇨🇦"
+                    },
+                    {
+                        "currencyCode": "CHF",
+                        "countryCode": "CH",
+                        "priority": 7,
+                        "emoji": "🇨🇭"
+                    },
+                    {
+                        "currencyCode": "CNY",
+                        "countryCode": "CN",
+                        "priority": 8,
+                        "emoji": "🇨🇳"
+                    },
+                    {
+                        "currencyCode": "HKD",
+                        "countryCode": "HK",
+                        "priority": 9,
+                        "emoji": "🇭🇰"
+                    },
+                    {
+                        "currencyCode": "NZD",
+                        "countryCode": "NZ",
+                        "priority": 10,
+                        "emoji": "🇳🇿"
+                    },
+                    {
+                        "currencyCode": "BGN",
+                        "countryCode": "BG",
+                        "priority": 11,
+                        "emoji": "🇧🇬"
+                    },
+                    {
+                        "currencyCode": "BRL",
+                        "countryCode": "BR",
+                        "priority": 12,
+                        "emoji": "🇧🇷"
+                    },
+                    {
+                        "currencyCode": "CZK",
+                        "countryCode": "CZ",
+                        "priority": 13,
+                        "emoji": "🇨🇿"
+                    },
+                    {
+                        "currencyCode": "DKK",
+                        "countryCode": "DK",
+                        "priority": 14,
+                        "emoji": "🇩🇰"
+                    },
+                    {
+                        "currencyCode": "HUF",
+                        "countryCode": "HU",
+                        "priority": 15,
+                        "emoji": "🇭🇺"
+                    },
+                    {
+                        "currencyCode": "IDR",
+                        "countryCode": "ID",
+                        "priority": 16,
+                        "emoji": "🇮🇩"
+                    },
+                    {
+                        "currencyCode": "ILS",
+                        "countryCode": "IL",
+                        "priority": 17,
+                        "emoji": "🇮🇱"
+                    },
+                    {
+                        "currencyCode": "INR",
+                        "countryCode": "IN",
+                        "priority": 18,
+                        "emoji": "🇮🇳"
+                    },
+                    {
+                        "currencyCode": "ISK",
+                        "countryCode": "IS",
+                        "priority": 19,
+                        "emoji": "🇮🇸"
+                    },
+                    {
+                        "currencyCode": "KRW",
+                        "countryCode": "KR",
+                        "priority": 20,
+                        "emoji": "🇰🇷"
+                    },
+                    {
+                        "currencyCode": "MXN",
+                        "countryCode": "MX",
+                        "priority": 21,
+                        "emoji": "🇲🇽"
+                    },
+                    {
+                        "currencyCode": "MYR",
+                        "countryCode": "MY",
+                        "priority": 22,
+                        "emoji": "🇲🇾"
+                    },
+                    {
+                        "currencyCode": "NOK",
+                        "countryCode": "NO",
+                        "priority": 23,
+                        "emoji": "🇳🇴"
+                    },
+                    {
+                        "currencyCode": "PHP",
+                        "countryCode": "PH",
+                        "priority": 24,
+                        "emoji": "🇵🇭"
+                    },
+                    {
+                        "currencyCode": "PLN",
+                        "countryCode": "PL",
+                        "priority": 25,
+                        "emoji": "🇵🇱"
+                    },
+                    {
+                        "currencyCode": "RON",
+                        "countryCode": "RO",
+                        "priority": 26,
+                        "emoji": "🇷🇴"
+                    },
+                    {
+                        "currencyCode": "SEK",
+                        "countryCode": "SE",
+                        "priority": 27,
+                        "emoji": "🇸🇪"
+                    },
+                    {
+                        "currencyCode": "SGD",
+                        "countryCode": "SG",
+                        "priority": 28,
+                        "emoji": "🇸🇬"
+                    },
+                    {
+                        "currencyCode": "THB",
+                        "countryCode": "TH",
+                        "priority": 29,
+                        "emoji": "🇹🇭"
+                    },
+                    {
+                        "currencyCode": "TRY",
+                        "countryCode": "TR",
+                        "priority": 30,
+                        "emoji": "🇹🇷"
+                    },
+                    {
+                        "currencyCode": "ZAR",
+                        "countryCode": "ZA",
+                        "priority": 31,
+                        "emoji": "🇿🇦"
+                    }
+                ]
+}
