@@ -12,15 +12,19 @@ import CoreData
 @main
 struct CurrencyConverterApp: App {
     @StateObject private var persistenceController = PersistenceController.shared
-    @StateObject private var remoteConfigLoader = RemoteConfigLoader(context: PersistenceController.shared.container.viewContext)
+    @StateObject private var remoteConfigLoader: BootstrapLoader
+
+    init() {
+        let context = PersistenceController.shared.container.viewContext
+        let loader = BootstrapLoader(context: context)
+        loader.loadRemoteConfigAndCurrencyNames()
+        _remoteConfigLoader = StateObject(wrappedValue: loader)
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .onAppear {
-                    remoteConfigLoader.loadRemoteConfig()
-                }
         }
     }
 }
@@ -33,7 +37,7 @@ struct ContentView: View {
 
 struct MainTabView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
+    
     var body: some View {
         TabView {
             ExchangeRatesView(context: viewContext)
@@ -50,27 +54,37 @@ struct MainTabView: View {
     }
 }
 
-class RemoteConfigLoader: ObservableObject {
+class BootstrapLoader: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
-    let remoteConfigRepository = RemoteConfigRepository()
-    let localStorageAdapter: LocalStorageAdapter
-
+    private let remoteConfigRepository = RemoteConfigRepository()
+    private let frankfurterRepository = FrankfurterRepository()
+    private let localStorageAdapter: LocalStorageAdapter
+    
     init(context: NSManagedObjectContext) {
         self.localStorageAdapter = LocalStorageAdapter(context: context)
     }
-
-    func loadRemoteConfig() {
-        remoteConfigRepository.fetchRemoteConfig()
+    
+    func loadRemoteConfigAndCurrencyNames() {
+        Publishers.Zip(remoteConfigRepository.fetchRemoteConfig(), frankfurterRepository.fetchCurrencyNames())
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
-                    print("Error fetching remote config: \(error)")
+                    print("Error fetching data: \(error)")
                 case .finished:
                     break
                 }
-            }, receiveValue: { [weak self] currencies in
-                self?.localStorageAdapter.saveCurrencies(currencies)
+            }, receiveValue: { [weak self] (currencies, currencyNames) in
+                print("boot currencies.count \(currencies.count)")
+                print("boot currencyNames.counte \(currencyNames.count)")
+                var updatedCurrencies = currencies
+                for (currencyCode, currencyName) in currencyNames {
+                    if let index = updatedCurrencies.firstIndex(where: { $0.currencyCode == currencyCode }) {
+                        updatedCurrencies[index].currencyName = currencyName
+                    }
+                }
+                self?.localStorageAdapter.saveCurrencies(updatedCurrencies)
             })
             .store(in: &cancellables)
     }
 }
+

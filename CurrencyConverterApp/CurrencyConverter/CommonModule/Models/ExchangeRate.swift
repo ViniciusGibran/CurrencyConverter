@@ -8,7 +8,7 @@
 import Foundation
 
 struct ExchangeRate: Identifiable {
-    var id: UUID { currencyDetails?.id ?? UUID() }
+    var id: UUID { UUID() }
     let currency: String
     let rate: Double
     var currencyDetails: Currency?

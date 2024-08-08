@@ -20,9 +20,7 @@
 		913B7C4A2C611824003E6D5A /* ExchangeRatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C492C611824003E6D5A /* ExchangeRatesTests.swift */; };
 		913B7CA82C624BF1003E6D5A /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C7A2C61AFD1003E6D5A /* APIService.swift */; };
 		913B7CB32C624C14003E6D5A /* CurrencyConverterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BED2C606133003E6D5A /* CurrencyConverterViewController.swift */; };
-		913B7CB42C624C14003E6D5A /* CurrencyConverterRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C892C61B0B5003E6D5A /* CurrencyConverterRepository.swift */; };
 		913B7CB52C624C14003E6D5A /* CurrencyConverterCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BEF2C606150003E6D5A /* CurrencyConverterCoordinator.swift */; };
-		913B7CB62C624C14003E6D5A /* ExchangeRatesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C7E2C61B03A003E6D5A /* ExchangeRatesRepository.swift */; };
 		913B7CB72C624C14003E6D5A /* CurrencyConverterViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C8B2C61B0CA003E6D5A /* CurrencyConverterViewContainer.swift */; };
 		913B7CB82C624C14003E6D5A /* ExchangeRatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7BE72C606087003E6D5A /* ExchangeRatesView.swift */; };
 		913B7CB92C624C14003E6D5A /* CurrencyConverterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7C8F2C61B266003E6D5A /* CurrencyConverterViewModel.swift */; };
@@ -36,6 +34,7 @@
 		913B7CD42C63C7B1003E6D5A /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CD32C63C7B1003E6D5A /* Currency.swift */; };
 		913B7CD62C63C7C3003E6D5A /* RemoteConfigRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CD52C63C7C2003E6D5A /* RemoteConfigRepository.swift */; };
 		913B7CE02C63CDB9003E6D5A /* LocalStorageAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CDF2C63CDB9003E6D5A /* LocalStorageAdapter.swift */; };
+		913B7CE22C6428D5003E6D5A /* FrankfurterRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913B7CE12C6428D5003E6D5A /* FrankfurterRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,9 +97,7 @@
 		913B7C492C611824003E6D5A /* ExchangeRatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesTests.swift; sourceTree = "<group>"; };
 		913B7C6E2C6194A3003E6D5A /* ExchangeRatesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesViewModel.swift; sourceTree = "<group>"; };
 		913B7C7A2C61AFD1003E6D5A /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		913B7C7E2C61B03A003E6D5A /* ExchangeRatesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRatesRepository.swift; sourceTree = "<group>"; };
 		913B7C842C61B086003E6D5A /* ConversionResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionResult.swift; sourceTree = "<group>"; };
-		913B7C892C61B0B5003E6D5A /* CurrencyConverterRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterRepository.swift; sourceTree = "<group>"; };
 		913B7C8B2C61B0CA003E6D5A /* CurrencyConverterViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterViewContainer.swift; sourceTree = "<group>"; };
 		913B7C8F2C61B266003E6D5A /* CurrencyConverterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterViewModel.swift; sourceTree = "<group>"; };
 		913B7CBE2C62549F003E6D5A /* ButtonPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonPublisher.swift; sourceTree = "<group>"; };
@@ -109,6 +106,7 @@
 		913B7CD32C63C7B1003E6D5A /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		913B7CD52C63C7C2003E6D5A /* RemoteConfigRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteConfigRepository.swift; path = ../../Services/RemoteConfigRepository.swift; sourceTree = "<group>"; };
 		913B7CDF2C63CDB9003E6D5A /* LocalStorageAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorageAdapter.swift; sourceTree = "<group>"; };
+		913B7CE12C6428D5003E6D5A /* FrankfurterRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrankfurterRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,8 +318,7 @@
 			isa = PBXGroup;
 			children = (
 				913B7CD52C63C7C2003E6D5A /* RemoteConfigRepository.swift */,
-				913B7C892C61B0B5003E6D5A /* CurrencyConverterRepository.swift */,
-				913B7C7E2C61B03A003E6D5A /* ExchangeRatesRepository.swift */,
+				913B7CE12C6428D5003E6D5A /* FrankfurterRepository.swift */,
 			);
 			path = Remote;
 			sourceTree = "<group>";
@@ -490,11 +487,10 @@
 				913B7BF22C6063D2003E6D5A /* TabBarCoordinator.swift in Sources */,
 				913B7CD62C63C7C3003E6D5A /* RemoteConfigRepository.swift in Sources */,
 				913B7CB32C624C14003E6D5A /* CurrencyConverterViewController.swift in Sources */,
-				913B7CB42C624C14003E6D5A /* CurrencyConverterRepository.swift in Sources */,
 				913B7CB52C624C14003E6D5A /* CurrencyConverterCoordinator.swift in Sources */,
-				913B7CB62C624C14003E6D5A /* ExchangeRatesRepository.swift in Sources */,
 				913B7CB72C624C14003E6D5A /* CurrencyConverterViewContainer.swift in Sources */,
 				913B7CB82C624C14003E6D5A /* ExchangeRatesView.swift in Sources */,
+				913B7CE22C6428D5003E6D5A /* FrankfurterRepository.swift in Sources */,
 				913B7CB92C624C14003E6D5A /* CurrencyConverterViewModel.swift in Sources */,
 				913B7CE02C63CDB9003E6D5A /* LocalStorageAdapter.swift in Sources */,
 				913B7CBA2C624C14003E6D5A /* ExchangeRate.swift in Sources */,

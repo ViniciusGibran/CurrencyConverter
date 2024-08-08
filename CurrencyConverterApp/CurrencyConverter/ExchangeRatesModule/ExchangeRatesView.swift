@@ -9,14 +9,13 @@ import SwiftUI
 import Combine
 import CoreData
 
-public struct ExchangeRatesView: View {
+struct ExchangeRatesView: View {
     @ObservedObject var viewModel: ExchangeRatesViewModel
-    @State private var searchText = ""
+    @State private var searchText = "" // todo move it the viewModel
 
     public init(context: NSManagedObjectContext) {
         self.viewModel = ExchangeRatesViewModel(context: context)
     }
-
     public var body: some View {
         NavigationView {
             VStack {
@@ -31,25 +30,15 @@ public struct ExchangeRatesView: View {
                                 VStack(alignment: .leading) {
                                     Text(rate.currency)
                                         .font(.headline)
-                                    if let currencyName = currencyDetails.currencyName {
-                                        Text(currencyName)
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                    }
+                                    Text(currencyDetails.currencyName ?? "")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
                                 }
-                            } else {
-                                Text("🏳️")
-                                    .font(.largeTitle)
-                                    .padding(.trailing, 8)
-                                VStack(alignment: .leading) {
-                                    Text(rate.currency)
-                                        .font(.headline)
-                                }
+                                Spacer()
+                                Text(String(format: "%.4f", rate.rate))
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
                             }
-                            Spacer()
-                            Text(String(format: "%.4f", rate.rate))
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
                         }
                     }
                     if viewModel.state == .loading {
@@ -68,7 +57,6 @@ public struct ExchangeRatesView: View {
             .navigationTitle("Exchange Rates")
             .onAppear {
                 if viewModel.state == .idle {
-                    viewModel.fetchCurrencyNames()
                     viewModel.fetchExchangeRates()
                 }
             }
