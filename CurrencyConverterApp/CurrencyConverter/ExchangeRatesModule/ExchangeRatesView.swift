@@ -51,9 +51,7 @@ struct ExchangeRatesView: View {
             .navigationTitle("Euro Exchange Rates")
             .searchable(text: $viewModel.searchText)
             .onAppear {
-                Task {
-                    await viewModel.fetchExchangeRates()
-                }
+                Task { await viewModel.fetchExchangeRates() }
             }
             .alert(isPresented: Binding<Bool>(
                 get: { viewModel.state == .error("") },

@@ -17,7 +17,6 @@ struct CurrencyConverterTableViewContainer: UIViewControllerRepresentable {
         let viewModel = CurrencyConverterViewModel(localStorageAdapter: localStorageAdapter, coordinator: coordinator)
 
         navigationController.viewControllers = [CurrencyConverterTableViewController(viewModel: viewModel)]
-        
         return navigationController
     }
 

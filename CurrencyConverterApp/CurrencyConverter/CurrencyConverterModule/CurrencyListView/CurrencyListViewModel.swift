@@ -10,7 +10,6 @@ import Combine
 
 class CurrencyListViewModel: ObservableObject {
     
-    // here: rename it to InstaceType
     enum InstanceType {
         case sourceCurrency(ignoreCurrency: Currency?)
         case destinationCurrency(ignoreCurrency: Currency?)
@@ -19,7 +18,7 @@ class CurrencyListViewModel: ObservableObject {
     @Published var currencies: [Currency] = []
     private var instanceFrom: InstanceType
     private let adapter: LocalStorageAdapter
-
+    
     var currencySelectedSubject = PassthroughSubject<Currency, Never>()
     
     var viewTitle: String {

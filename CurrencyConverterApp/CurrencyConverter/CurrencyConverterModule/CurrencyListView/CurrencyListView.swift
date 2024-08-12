@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CurrencyListView: View {
     @ObservedObject var viewModel: CurrencyListViewModel
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(viewModel.viewTitle)

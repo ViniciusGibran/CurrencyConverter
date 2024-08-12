@@ -47,8 +47,6 @@ class LocalStorageAdapter {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
         fetchRequest.relationshipKeyPathsForPrefetching = ["sourceCurrency", "destinationCurrency"]
         
-        print(context)
-        
         do {
             let conversionMOs = try await context.perform {
                 return try self.context.fetch(fetchRequest)
@@ -90,7 +88,6 @@ class LocalStorageAdapter {
         conversionMO.timestamp = conversion.timestamp
         conversionMO.amount = conversion.amount
         
-        // Ensure that the fetched CurrencyMO objects are in the same context
         let sourceCurrencyMO = try await loadCurrencyMO(for: conversion.sourceCurrency.currencyCode)
         let destinationCurrencyMO = try await loadCurrencyMO(for: conversion.destinationCurrency.currencyCode)
         
@@ -98,7 +95,6 @@ class LocalStorageAdapter {
             conversionMO.sourceCurrency = sourceCurrencyMO
             conversionMO.destinationCurrency = destinationCurrencyMO
             
-            // Save the context only after setting all relationships
             try context.save()
         } else {
             throw NSError(domain: "LocalStorageAdapter", code: 0, userInfo: [NSLocalizedDescriptionKey: "CurrencyMO not found"])
@@ -114,9 +110,8 @@ class LocalStorageAdapter {
                 try self.context.fetch(fetchRequest).first
             }
         } catch {
-            // Handle the error, log it, or rethrow it
             print("Error fetching CurrencyMO for currency code \(currencyCode): \(error)")
-            throw error // or return nil depending on how you want to handle it
+            throw error
         }
     }
 }

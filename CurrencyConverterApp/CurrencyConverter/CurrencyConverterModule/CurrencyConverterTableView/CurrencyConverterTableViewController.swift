@@ -55,7 +55,7 @@ class CurrencyConverterTableViewController: UITableViewController {
                     break
                 }
             }, receiveValue: { [weak self] _ in
-                self?.updateHeaderView() // here todo:
+                self?.updateHeaderView()
                 self?.tableView.reloadData()
             })
             .store(in: &cancellables)
@@ -87,9 +87,8 @@ class CurrencyConverterTableViewController: UITableViewController {
             }
             .store(in: &cancellables)
         
-        // Observe changes in the text field and update the amountValue
         headerView.amountTextField.publisher(for: \.text)
-            .compactMap { Double($0 ?? "") } // Convert the text to Double
+            .compactMap { Double($0 ?? "") }
             .sink { [weak self] value in
                 self?.viewModel.conversionAmount = value
             }
