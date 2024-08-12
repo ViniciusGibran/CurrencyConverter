@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ConversionMO" representedClassName="ConversionMO" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="result" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="destinationCurrency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CurrencyMO" inverseName="destinationConversion" inverseEntity="CurrencyMO"/>
+        <relationship name="sourceCurrency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CurrencyMO" inverseName="sourceConversion" inverseEntity="CurrencyMO"/>
+    </entity>
     <entity name="CurrencyMO" representedClassName="CurrencyMO" syncable="YES" codeGenerationType="class">
         <attribute name="countryCode" optional="YES" attributeType="String"/>
         <attribute name="currencyCode" optional="YES" attributeType="String"/>
@@ -7,5 +15,7 @@
         <attribute name="flag" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="destinationConversion" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConversionMO" inverseName="destinationCurrency" inverseEntity="ConversionMO"/>
+        <relationship name="sourceConversion" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ConversionMO" inverseName="sourceCurrency" inverseEntity="ConversionMO"/>
     </entity>
 </model>
