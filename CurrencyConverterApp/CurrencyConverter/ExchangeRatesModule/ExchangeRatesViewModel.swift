@@ -19,115 +19,50 @@ public enum ViewState: Equatable {
 
 class ExchangeRatesViewModel: ObservableObject {
     @Published public var exchangeRates: [ExchangeRate] = []
+    @Published var searchText = ""
     @Published public var state: ViewState = .idle
     private var cancellables = Set<AnyCancellable>()
     private let repository = FrankfurterRepository()
     private let localStorageAdapter: LocalStorageAdapter
-
+    
+    var filteredRates: [ExchangeRate] {
+        guard !searchText.isEmpty else { return exchangeRates }
+        return exchangeRates.filter {
+            $0.currency.uppercased().contains(searchText.uppercased()) ||
+            $0.currencyDetails?.currencyName?.uppercased().contains(searchText.uppercased()) ?? false
+        }
+    }
+    
     init(context: NSManagedObjectContext) {
         self.localStorageAdapter = LocalStorageAdapter(context: context)
     }
-
-    /*
-    func fetchExchangeRates() {
-        guard state != .loading && !allItemsLoaded else { return }
-        state = .loading
-
-        repository.fetchExchangeRates(page: currentPage, pageSize: pageSize)
-            .flatMap { [weak self] rates -> AnyPublisher<[ExchangeRate], Error> in
-                guard let self = self else { return Empty().eraseToAnyPublisher() }
-                let currencyCodes = rates.map { $0.currency }
-                return self.localStorageAdapter.loadCurrencies(for: currencyCodes)
-                    .map { currencies -> [ExchangeRate] in
-                        rates.map { rate -> ExchangeRate in
-                            print("")
-                            print("rates.map coredata rate ids")
-                            print("rate.id \(rate.id)")
-                            var detailedRate = rate
-                            detailedRate.currencyDetails = currencies.first { $0.currencyCode == rate.currency }
-                            return detailedRate
-                        }
-                    }
-                    .eraseToAnyPublisher()
-            }
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print("Error fetching exchange rates: \(error)")
-                    self.state = .error(error.localizedDescription)
-                case .finished:
-                    self.state = self.allItemsLoaded ? .loadedAll : .loaded
-                }
-            }, receiveValue: { [weak self] detailedRates in
-                guard let self = self else { return }
-                
-                print("")
-                print("receiveValue rate ids")
-                for rate in detailedRates {
-                    print("ExchangeRate ID: \(rate.id)")
-                }
-                
-                if self.currentPage == 0 { self.exchangeRates.removeAll() }
-                self.allItemsLoaded = detailedRates.count < pageSize
-                
-                guard !detailedRates.isEmpty else { return }
-                self.exchangeRates.append(contentsOf: detailedRates)
-                //self.exchangeRates.sort { ($0.currencyDetails?.priority ?? 0) < ($1.currencyDetails?.priority ?? 0) }
-                self.currentPage += 1
-            })
-            .store(in: &cancellables)
-    }*/
     
-    public func fetchExchangeRates() {
-            guard state != .loading else { return }
-            state = .loading
-
-            repository.fetchExchangeRates()
-                .flatMap { [weak self] rates -> AnyPublisher<[ExchangeRate], Error> in
-                    guard let self = self else { return Empty().eraseToAnyPublisher() }
-                    let currencyCodes = rates.map { $0.currency }
-                    return self.localStorageAdapter.loadCurrencies(for: currencyCodes)
-                        .map { currencies -> [ExchangeRate] in
-                            rates.map { rate -> ExchangeRate in
-                                var detailedRate = rate
-                                detailedRate.currencyDetails = currencies.first { $0.currencyCode == rate.currency }
-                                return detailedRate
-                            }
-                        }
-                        .eraseToAnyPublisher()
-                }
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { completion in
-                    switch completion {
-                    case .failure(let error):
-                        print("Error fetching exchange rates: \(error)")
-                        self.state = .error(error.localizedDescription)
-                    case .finished:
-                        self.state = .loaded
-                    }
-                }, receiveValue: { [weak self] detailedRates in
-                    guard let self = self else { return }
-                    
-                    print("Fetched \(detailedRates.count) rates")
-                    for rate in detailedRates {
-                        print("ExchangeRate ID: \(rate.id)")
-                    }
-                    
-                    self.exchangeRates = detailedRates
-                    self.exchangeRates.sort { ($0.currencyDetails?.priority ?? 0) < ($1.currencyDetails?.priority ?? 0) }
-                })
-                .store(in: &cancellables)
-        }
-
-    func filteredExchangeRates(searchText: String) -> [ExchangeRate] {
-        if searchText.isEmpty {
-            return exchangeRates
-        } else {
-            return exchangeRates.filter {
-                $0.currency.uppercased().contains(searchText.uppercased()) ||
-                $0.currencyDetails?.currencyName?.uppercased().contains(searchText.uppercased()) ?? false
+    @MainActor
+    public func fetchExchangeRates() async {
+        guard state != .loading else { return }
+        state = .loading
+        
+        do {
+            
+            // Add a delay of 1.0 seconds to allow showing the loader
+            try await Task.sleep(nanoseconds: 1_000_000_000)
+            
+            let rates = try await repository.fetchExchangeRates()
+            let currencyCodes = rates.map { $0.currency }
+            let currencies = try await localStorageAdapter.loadCurrencies(for: currencyCodes)
+            
+            let detailedRates = rates.map { rate -> ExchangeRate in
+                var detailedRate = rate
+                detailedRate.currencyDetails = currencies.first { $0.currencyCode == rate.currency }
+                return detailedRate
             }
+            
+            // self.exchangeRates.append(contentsOf: detailedRates) // in case of pagination
+            self.exchangeRates = detailedRates
+            self.exchangeRates.sort { ($0.currencyDetails?.priority ?? 0) < ($1.currencyDetails?.priority ?? 0) }
+            self.state = .loaded
+        } catch {
+            self.state = .error(error.localizedDescription)
         }
     }
 }
