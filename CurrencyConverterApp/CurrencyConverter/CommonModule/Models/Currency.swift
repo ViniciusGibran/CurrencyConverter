@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Currency: Identifiable, Decodable {
+struct Currency: Identifiable, Decodable, Equatable {
     var id: UUID
     var currencyName: String?
     let currencyCode: String
@@ -23,7 +23,13 @@ struct Currency: Identifiable, Decodable {
         case flag
     }
 
-    init(id: UUID = UUID(), currencyName: String?, currencyCode: String, countryCode: String, priority: Int, flag: String) {
+    init(id: UUID = UUID(),
+         currencyName: String?,
+         currencyCode: String,
+         countryCode: String,
+         priority: Int,
+         flag: String
+    ) {
         self.id = id
         self.currencyName = currencyName
         self.currencyCode = currencyCode
@@ -40,5 +46,14 @@ struct Currency: Identifiable, Decodable {
         countryCode = try container.decode(String.self, forKey: .countryCode)
         priority = try container.decode(Int.self, forKey: .priority)
         flag = try container.decode(String.self, forKey: .flag)
+    }
+    
+    init(from currencyMO: CurrencyMO) {
+        self.id = currencyMO.id ?? UUID()
+        self.currencyName = currencyMO.currencyName
+        self.currencyCode = currencyMO.currencyCode ?? ""
+        self.countryCode = currencyMO.countryCode ?? ""
+        self.priority = Int(currencyMO.priority)
+        self.flag = currencyMO.flag ?? ""
     }
 }
