@@ -23,14 +23,14 @@ class CurrencyConverterHeaderView: UIView {
     let sourceCurrencyButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("🇪🇺 EUR", for: .normal) // Default to EUR
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 40, weight: .semibold)
+        button.titleLabel?.font = .systemFont(ofSize: 40, weight: .semibold)
         return button
     }()
     
     let destinationCurrencyButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("🇺🇸 USD", for: .normal) // Default to USD
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 40, weight: .semibold)
+        button.titleLabel?.font = .systemFont(ofSize: 40, weight: .semibold)
         return button
     }()
     
@@ -45,8 +45,9 @@ class CurrencyConverterHeaderView: UIView {
     
     let toLabel: UILabel = {
         let label = UILabel()
-        label.text = "to"
+        label.text = "→"
         label.textAlignment = .center
+        label.font = .systemFont(ofSize: 30, weight: .bold)
         return label
     }()
     
@@ -61,7 +62,6 @@ class CurrencyConverterHeaderView: UIView {
     }
     
     private func setupView() {
-        // Adding the subviews
         addSubview(amountTextField)
         addSubview(convertButton)
         
@@ -70,15 +70,11 @@ class CurrencyConverterHeaderView: UIView {
         currencyStackView.distribution = .equalSpacing
         addSubview(currencyStackView)
         
-        // Adding constraints
         amountTextField.translatesAutoresizingMaskIntoConstraints = false
         currencyStackView.translatesAutoresizingMaskIntoConstraints = false
         convertButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            //sourceCurrencyButton.widthAnchor.constraint(equalToConstant: 80),
-            //destinationCurrencyButton.widthAnchor.constraint(equalToConstant: 80),
-            
             amountTextField.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             amountTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             amountTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
