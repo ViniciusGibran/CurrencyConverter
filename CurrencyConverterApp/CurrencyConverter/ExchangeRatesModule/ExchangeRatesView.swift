@@ -7,90 +7,60 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
-import SwiftUI
-import Combine
-
-public struct ExchangeRatesView: View {
-    @ObservedObject var viewModel = ExchangeRatesViewModel()
-
+struct ExchangeRatesView: View {
+    @ObservedObject var viewModel: ExchangeRatesViewModel
+    
+    public init(context: NSManagedObjectContext) {
+        self.viewModel = ExchangeRatesViewModel(context: context)
+    }
+    
     public var body: some View {
         NavigationView {
-            List(viewModel.exchangeRates) { rate in
-                HStack {
-                    Text(flag(for: rate.currency))
-                        .font(.largeTitle)
-                        .padding(.trailing, 8)
-                    VStack(alignment: .leading) {
-                        Text(rate.currency)
-                            .font(.headline)
-                        if let currencyName = viewModel.currencyNames[rate.currency] {
-                            Text(currencyName)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+            VStack {
+                if viewModel.state == .loading {
+                    ProgressView().padding()
+                } else if viewModel.filteredRates.isEmpty {
+                    Text("No results found")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    List {
+                        ForEach(viewModel.filteredRates) { rate in
+                            HStack {
+                                Text(rate.currencyDetails?.flag ?? "")
+                                    .font(.largeTitle)
+                                    .padding(.trailing, 8)
+                                VStack(alignment: .leading) {
+                                    Text(rate.currency)
+                                        .font(.headline)
+                                    Text(rate.currencyDetails?.currencyName ?? "")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
+                                Spacer()
+                                Text(String(format: "%.4f", rate.rate))
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
                         }
                     }
-                    Spacer()
-                    Text(String(format: "%.4f", rate.rate))
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
                 }
             }
             .navigationTitle("Euro Exchange Rates")
+            .searchable(text: $viewModel.searchText)
             .onAppear {
-                viewModel.fetchExchangeRates()
+                Task {
+                    await viewModel.fetchExchangeRates()
+                }
+            }
+            .alert(isPresented: Binding<Bool>(
+                get: { viewModel.state == .error("") },
+                set: { _ in viewModel.state = .idle }
+            )) {
+                Alert(title: Text("Error"), message: Text("Failed to load exchange rates"), dismissButton: .default(Text("OK")))
             }
         }
-    }
-
-    let currencyToCountryCode: [String: String] = [
-        "AUD": "AU",
-        "BGN": "BG",
-        "BRL": "BR",
-        "CAD": "CA",
-        "CHF": "CH",
-        "CNY": "CN",
-        "CZK": "CZ",
-        "DKK": "DK",
-        "EUR": "EU",
-        "GBP": "GB",
-        "HKD": "HK",
-        "HUF": "HU",
-        "IDR": "ID",
-        "ILS": "IL",
-        "INR": "IN",
-        "ISK": "IS",
-        "JPY": "JP",
-        "KRW": "KR",
-        "MXN": "MX",
-        "MYR": "MY",
-        "NOK": "NO",
-        "NZD": "NZ",
-        "PHP": "PH",
-        "PLN": "PL",
-        "RON": "RO",
-        "SEK": "SE",
-        "SGD": "SG",
-        "THB": "TH",
-        "TRY": "TR",
-        "USD": "US",
-        "ZAR": "ZA",
-        // Add more mappings as needed
-    ]
-
-    func flag(for currencyCode: String) -> String {
-        guard let countryCode = currencyToCountryCode[currencyCode] else {
-            return "🇫🇲" // Default flag if not found
-        }
-        return flagEmoji(for: countryCode)
-    }
-
-    private func flagEmoji(for countryCode: String) -> String {
-        let base: UInt32 = 127397
-        var s = ""
-        for scalar in countryCode.unicodeScalars {
-            s.unicodeScalars.append(UnicodeScalar(base + scalar.value)!)
-        }
-        return String(s)
     }
 }
