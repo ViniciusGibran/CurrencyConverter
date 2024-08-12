@@ -32,9 +32,7 @@ struct CurrencyListView: View {
                 }
             }
             .onAppear {
-                Task {
-                    await viewModel.fetchCurrencies()
-                }
+                Task { await viewModel.fetchCurrencies() }
             }
         }
         .background(Color(.systemGroupedBackground))
