@@ -11,44 +11,32 @@ struct ConversionResultView: View {
     @ObservedObject var viewModel: ConversionResultViewModel
 
     var body: some View {
-        VStack(alignment: .center, spacing: 20) {
-            Text("Conversion Result")
-                .font(.title)
-                .bold()
-                .padding(.top, 40)
-
-            HStack(spacing: 8) {
-                Text(viewModel.sourceCurrency.flag)
-                    .font(.largeTitle)
-                Text(viewModel.sourceCurrency.currencyCode)
-                    .font(.headline)
-
-                Text("→")
-                    .font(.title)
-                    .padding(.horizontal, 8)
-
-                Text(viewModel.destinationCurrency.flag)
-                    .font(.largeTitle)
-                Text(viewModel.destinationCurrency.currencyCode)
-                    .font(.headline)
-            }
-            .padding()
-
-            Text(String(format: "%.2f", viewModel.conversionResult ?? 1.00))
-                .font(.system(size: 48))
-                .bold()
-                .padding(.top, 40)
-
+        ZStack {
+            Color(.systemGroupedBackground)
+                .ignoresSafeArea()
             Spacer()
-                .onAppear() {
-                    Task {
-                        await viewModel.convertCurrency()
-                    }
+            VStack {
+                Text("Conversion Result")
+                    .font(.headline)
+                    .padding()
+                HStack {
+                    Text(viewModel.sourceCurrency.flag)
+                    Text(viewModel.sourceCurrency.currencyCode)
+                    Text("→")
+                    Text(viewModel.destinationCurrency.flag)
+                    Text(viewModel.destinationCurrency.currencyCode)
                 }
-            
+                .font(.title)
+                .padding()
+                Text("\(viewModel.conversionResult ?? 0.00, specifier: "%.2f")")
+                    .font(.system(size: 48, weight: .bold, design: .default))
+                    .padding()
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .padding()
-        .background(Color(.systemGroupedBackground))
-        .cornerRadius(12)
+        .onAppear() {
+            Task { await viewModel.convertCurrency() }
+        }
     }
 }
