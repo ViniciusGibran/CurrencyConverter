@@ -9,5 +9,3 @@ The Currency Converter App is an application that provides up-to-date exchange r
 
 - **Exchange Rates List**: Displays the current exchange rates between the EUR and the major currencies of the world (USD, BRL, GBP, etc.).
 - **Currency Converter**: Allows users to input an amount, select the source and destination currencies, and see the converted amount.
-- **Country Flags**: Displays country flags next to currency codes for better user experience.
-- **Pagination and Lazy Loading**: Efficiently handles large lists of exchange rates.
