@@ -13,14 +13,15 @@ import CoreData
 struct CurrencyConverterApp: App {
     @StateObject private var persistenceController = PersistenceController.shared
     @StateObject private var remoteConfigLoader: BootstrapLoader
-
+    
     init() {
         let context = PersistenceController.shared.container.viewContext
         let loader = BootstrapLoader(context: context)
-        loader.loadRemoteConfigAndCurrencyNames()
+        
+        Task { await loader.loadRemoteConfigAndCurrencyNames() }
         _remoteConfigLoader = StateObject(wrappedValue: loader)
     }
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -42,12 +43,12 @@ struct MainTabView: View {
         TabView {
             ExchangeRatesView(context: viewContext)
                 .tabItem {
-                    Label("Exchange Rates", systemImage: "list.dash")
+                    Image(systemName: "list.dash")
                 }
             
-            CurrencyConverterViewContainer()
+            CurrencyConverterTableViewContainer()
                 .tabItem {
-                    Label("Converter", systemImage: "arrow.left.arrow.right")
+                    Image(systemName: "arrow.left.arrow.right")
                 }
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
@@ -64,27 +65,25 @@ class BootstrapLoader: ObservableObject {
         self.localStorageAdapter = LocalStorageAdapter(context: context)
     }
     
-    func loadRemoteConfigAndCurrencyNames() {
-        Publishers.Zip(remoteConfigRepository.fetchRemoteConfig(), frankfurterRepository.fetchCurrencyNames())
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print("Error fetching data: \(error)")
-                case .finished:
-                    break
+    func loadRemoteConfigAndCurrencyNames() async {
+        do {
+            let (currencies, currencyNames) = try await (
+                remoteConfigRepository.fetchRemoteConfig(),
+                frankfurterRepository.fetchCurrencyNames()
+            )
+            
+            var updatedCurrencies = currencies
+            for (currencyCode, currencyName) in currencyNames {
+                if let index = updatedCurrencies.firstIndex(where: { $0.currencyCode == currencyCode }) {
+                    updatedCurrencies[index].currencyName = currencyName
                 }
-            }, receiveValue: { [weak self] (currencies, currencyNames) in
-                print("boot currencies.count \(currencies.count)")
-                print("boot currencyNames.counte \(currencyNames.count)")
-                var updatedCurrencies = currencies
-                for (currencyCode, currencyName) in currencyNames {
-                    if let index = updatedCurrencies.firstIndex(where: { $0.currencyCode == currencyCode }) {
-                        updatedCurrencies[index].currencyName = currencyName
-                    }
-                }
-                self?.localStorageAdapter.saveCurrencies(updatedCurrencies)
-            })
-            .store(in: &cancellables)
+            }
+            
+            localStorageAdapter.saveCurrencies(updatedCurrencies)
+            
+        } catch {
+            print("Error fetching data: \(error)")
+        }
     }
 }
 
