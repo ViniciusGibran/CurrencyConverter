@@ -11,26 +11,31 @@ import CoreData
 
 struct ExchangeRatesView: View {
     @ObservedObject var viewModel: ExchangeRatesViewModel
-    @State private var searchText = "" // todo move it the viewModel
-
+    
     public init(context: NSManagedObjectContext) {
         self.viewModel = ExchangeRatesViewModel(context: context)
     }
+    
     public var body: some View {
         NavigationView {
             VStack {
-                SearchBar(text: $searchText)
-                List {
-                    ForEach(viewModel.filteredExchangeRates(searchText: searchText)) { rate in
-                        HStack {
-                            if let currencyDetails = rate.currencyDetails {
-                                Text(currencyDetails.flag)
+                if viewModel.state == .loading {
+                    ProgressView().padding()
+                } else if viewModel.filteredRates.isEmpty {
+                    Text("No results found")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    List {
+                        ForEach(viewModel.filteredRates) { rate in
+                            HStack {
+                                Text(rate.currencyDetails?.flag ?? "")
                                     .font(.largeTitle)
                                     .padding(.trailing, 8)
                                 VStack(alignment: .leading) {
                                     Text(rate.currency)
                                         .font(.headline)
-                                    Text(currencyDetails.currencyName ?? "")
+                                    Text(rate.currencyDetails?.currencyName ?? "")
                                         .font(.subheadline)
                                         .foregroundColor(.gray)
                                 }
@@ -41,23 +46,13 @@ struct ExchangeRatesView: View {
                             }
                         }
                     }
-                    if viewModel.state == .loading {
-                        ProgressView()
-                            .onAppear {
-                                viewModel.fetchExchangeRates()
-                            }
-                    } else if viewModel.state == .loaded {
-                        Color.clear
-                            .onAppear {
-                                viewModel.fetchExchangeRates()
-                            }
-                    }
                 }
             }
-            .navigationTitle("Exchange Rates")
+            .navigationTitle("Euro Exchange Rates")
+            .searchable(text: $viewModel.searchText)
             .onAppear {
-                if viewModel.state == .idle {
-                    viewModel.fetchExchangeRates()
+                Task {
+                    await viewModel.fetchExchangeRates()
                 }
             }
             .alert(isPresented: Binding<Bool>(
@@ -67,35 +62,5 @@ struct ExchangeRatesView: View {
                 Alert(title: Text("Error"), message: Text("Failed to load exchange rates"), dismissButton: .default(Text("OK")))
             }
         }
-    }
-}
-
-struct SearchBar: UIViewRepresentable {
-    @Binding var text: String
-
-    class Coordinator: NSObject, UISearchBarDelegate {
-        @Binding var text: String
-
-        init(text: Binding<String>) {
-            _text = text
-        }
-
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            text = searchText
-        }
-    }
-
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(text: $text)
-    }
-
-    func makeUIView(context: Context) -> UISearchBar {
-        let searchBar = UISearchBar(frame: .zero)
-        searchBar.delegate = context.coordinator
-        return searchBar
-    }
-
-    func updateUIView(_ uiView: UISearchBar, context: Context) {
-        uiView.text = text
     }
 }
