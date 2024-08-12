@@ -25,13 +25,19 @@ class CurrencyConverterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Currency Converter"
+        view.backgroundColor = .systemGroupedBackground
         
         setupTableView()
         setupTableHeaderView()
         
-        // Setting the header view
-        let headerView = CurrencyConverterHeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 200))
-        tableView.tableHeaderView = headerView
+        // bind
+        viewModel.reloadDataSubject
+            .sink {[weak self] _ in
+                self?.updateHeaderView()
+                self?.tableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,24 +71,30 @@ class CurrencyConverterTableViewController: UITableViewController {
         
         headerView.sourceCurrencyButton.publisher
             .sink { [weak self] in
-                // handle sourceCurrencyButton action
-                self?.tableView.reloadData() // just to avoid warnings
+                self?.viewModel.didSelectCurrencyOptionFor(instanceFrom: .sourceCurrency(ignoreCurrency: nil))
             }
             .store(in: &cancellables)
         
         headerView.destinationCurrencyButton.publisher
             .sink { [weak self] in
-                // handle destinationCurrencyButton
-                self?.tableView.reloadData() // just to avoid warnings
+                self?.viewModel.didSelectCurrencyOptionFor(instanceFrom: .destinationCurrency(ignoreCurrency: nil))
             }
             .store(in: &cancellables)
         
         headerView.convertButton.publisher
             .sink { [weak self] in
-                // handle convertButton action
-                self?.tableView.reloadData() // just to avoid warnings
+                self?.viewModel.didSelectConversion()
             }
             .store(in: &cancellables)
+        
+        // Observe changes in the text field and update the amountValue
+        headerView.amountTextField.publisher(for: \.text)
+            .compactMap { Double($0 ?? "") } // Convert the text to Double
+            .sink { [weak self] value in
+                self?.viewModel.conversionAmount = value
+            }
+            .store(in: &cancellables)
+        
         
         tableView.tableHeaderView = headerView
     }

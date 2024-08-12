@@ -11,7 +11,13 @@ struct CurrencyConverterTableViewContainer: UIViewControllerRepresentable {
     @Environment(\.managedObjectContext) private var viewContext
 
     func makeUIViewController(context: Context) -> UINavigationController {
-        let navigationController = UINavigationController(rootViewController: CurrencyConverterTableViewController(viewModel: CurrencyConverterViewModel(localStorageAdapter: LocalStorageAdapter(context: viewContext))))
+        let localStorageAdapter = LocalStorageAdapter(context: viewContext)
+        let navigationController = UINavigationController()
+        let coordinator = CurrencyConverterCoordinator(navigationController: navigationController, localStorageAdapter: localStorageAdapter)
+        let viewModel = CurrencyConverterViewModel(localStorageAdapter: localStorageAdapter, coordinator: coordinator)
+
+        navigationController.viewControllers = [CurrencyConverterTableViewController(viewModel: viewModel)]
+        
         return navigationController
     }
 
