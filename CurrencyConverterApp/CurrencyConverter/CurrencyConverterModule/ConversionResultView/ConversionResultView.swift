@@ -35,8 +35,6 @@ struct ConversionResultView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .onAppear() {
-            Task { await viewModel.convertCurrency() }
-        }
+        .onAppear() { Task { await viewModel.convertCurrency() } }
     }
 }
